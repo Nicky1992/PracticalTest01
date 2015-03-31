@@ -1,6 +1,7 @@
 package ro.pub.cs.systems.pdsd.practicaltest01;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.telephony.PhoneNumberUtils;
 import android.text.Editable;
@@ -8,8 +9,10 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Toast;
 
 
 public class PracticalTest01MainActivity extends Activity {
@@ -50,17 +53,17 @@ public class PracticalTest01MainActivity extends Activity {
 			case R.id.phone:
 				EditText phoneText = (EditText)v;
 				if (phoneText.getText().toString() == null) {
-	                phoneText.setError("Invalid Email Address");
+	                phoneText.setError("Invalid Phone Number");
 	                box.setChecked(false);
 				} else if (phoneText.getText().toString().equals("")) {
-	                phoneText.setError("Invalid Email Address");
+	                phoneText.setError("Invalid Phone Number");
 	                box.setChecked(false);
 				}
 				boolean isPhone = PhoneNumberUtils.isGlobalPhoneNumber(phoneText.getText().toString());
 				if (isPhone) {
 					box.setChecked(true);
 				} else {
-	                phoneText.setError("Invalid Email Address");
+	                phoneText.setError("Invalid Phone Number");
 	                box.setChecked(false);
 				}
 								
@@ -96,10 +99,11 @@ public class PracticalTest01MainActivity extends Activity {
         setContentView(R.layout.activity_practical_test01_main);
         
         
-        EditText emailText = (EditText)findViewById(R.id.email);
-        EditText phoneText = (EditText)findViewById(R.id.phone);
-        CheckBox box1 = (CheckBox)findViewById(R.id.check1);
-        CheckBox box2 = (CheckBox)findViewById(R.id.check2);
+        final EditText emailText = (EditText)findViewById(R.id.email);
+        final EditText phoneText = (EditText)findViewById(R.id.phone);
+        final CheckBox box1 = (CheckBox)findViewById(R.id.check1);
+        final CheckBox box2 = (CheckBox)findViewById(R.id.check2);
+        Button button = (Button)findViewById(R.id.button1);
         
         if (savedInstanceState != null) {
         	String text1 = savedInstanceState.getString("text1");
@@ -145,8 +149,31 @@ public class PracticalTest01MainActivity extends Activity {
         emailText.addTextChangedListener(textListener);
         phoneText.addTextChangedListener(phoneListener);
         
+        button.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent activate = new Intent("ro.pub.cs.systems.pdsd.practicaltest01.intent.action.PracticalTest01SecondaryActivity");
+				activate.putExtra("emailValid", box1.isChecked());
+				activate.putExtra("phoneValid", box2.isChecked());
+				startActivityForResult(activate, 1);
+				
+			}
+		});
+        
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    	switch(requestCode) {
+    	case 1:
+    		Toast.makeText(this, "The activity returned with result " + resultCode, Toast.LENGTH_LONG).show();
+    		
+    		break;
+    	default:
+    		break;
+    	}
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

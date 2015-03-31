@@ -7,5 +7,10 @@
     <string name="email">email</string>
     <string name="phone">Phone</string>
     <string name="navigate">Navigate to secondary activity</string>
+    <string name="title_activity_practical_test01_secondary">PracticalTest01SecondaryActivity</string>
+    <string name="PhoneState">Phone Validation</string>
+    <string name="EmailState">Email Validation</string>
+    <string name="OK">OK</string>
+    <string name="Cancel">Cancel</string>
 
 </resources>
